@@ -23,6 +23,7 @@
         <mat-error *ngIf="questionForm.get('answerField').hasError('validateAnswer')">
           Answer is <strong>wrong</strong>
         </mat-error>
+        <mat-error *ngIf="goodAnswer" style="color:green">Good!</mat-error>
       </mat-form-field>
       <button 
         class="submit-button" 
