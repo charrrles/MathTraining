@@ -1,0 +1,29 @@
+<mat-card class="example-card">
+  <mat-card-header>
+    <div mat-card-avatar class="example-header-image"></div>
+    <mat-card-title>Multiplie rapidement</mat-card-title>
+    <mat-card-subtitle>Tables de multiplications</mat-card-subtitle>
+  </mat-card-header>
+  <canvas #canvas width="450" height="450"></canvas>
+  <!-- <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu"> -->
+  <mat-card-content>
+    <p class="large-text" align="center">
+    {{getCurrentQuestion()}}
+    </p>
+  </mat-card-content>
+  <mat-card-actions style="text-align: center;">
+    <form *ngIf="questionForm" [formGroup]="questionForm" (ngSubmit)="submitAnswer()" class="example-form">
+      <mat-form-field class="example-full-width" align="center">
+        <mat-label>Réponse</mat-label>
+        <input 
+          formControlName="answerField" 
+          class="large-text" 
+          matInput 
+          autocomplete="off">
+        <mat-error *ngIf="questionForm.get('answerField').hasError('validateAnswer')">
+          Answer is <strong>wrong</strong>
+        </mat-error>
+      </mat-form-field>
+    </form>
+  </mat-card-actions>
+</mat-card>
