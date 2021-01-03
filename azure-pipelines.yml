@@ -21,9 +21,13 @@ steps:
     ng build --prod
   displayName: 'npm install and build'
 
-- task: PublishBuildArtifacts@1
+- task: CopyFiles@2
   inputs:
-    PathtoPublish: '$(System.DefaultWorkingDirectory)'
-#    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    Contents: 'dist/**'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+- task: PublishBuildArtifacts@1
+  inputs: 
+    pathtoPublish: $(Build.ArtifactStagingDirectory) # dist or build files
     ArtifactName: 'mathTrainingDrop'
     publishLocation: 'Container'
