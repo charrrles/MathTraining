@@ -19,13 +19,13 @@ steps:
     node --version
     npm install -g @angular/cli
     npm install
+    ng build --prod
   displayName: 'npm install and build'
 
 - script: |
     echo Listing folders...
     dir '$(Build.ArtifactStagingDirectory)'
     dir '$(Agent.BuildDirectory)'
-    ng build --prod
     dir '$(Build.ArtifactStagingDirectory)'
   displayName: 'Try to understand'
 
