@@ -12,13 +12,16 @@ pool:
 steps:
 - task: NodeTool@0
   inputs:
-    versionSpec: '10.x'
+    versionSpec: '14.12.0'
   displayName: 'Install Node.js'
 
 - script: |
+    node --version
     npm install -g @angular/cli
     npm install
+    dir $(Build.ArtifactStagingDirectory)
     ng build --prod
+    dir $(Build.ArtifactStagingDirectory)
   displayName: 'npm install and build'
 
 - task: CopyFiles@2
