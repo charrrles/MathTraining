@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { Observable, of } from 'rxjs';
 
 
 class Question {
@@ -22,10 +23,10 @@ export class QuestionComponent implements OnInit {
 
   ngOnInit(): void {
     this.questionForm = new FormGroup({
-      'answerField': new FormControl('', [
-        Validators.required,
-        this.validateAnswer.bind(this)
-      ])
+      'answerField': new FormControl('',
+        [Validators.required], 
+        [this.validateAnswerAsync.bind(this)]
+      )
     });
     this.currentQuestion = this.getNextQuestion();
   }
@@ -40,7 +41,12 @@ export class QuestionComponent implements OnInit {
     };
   }
 
-  validateAnswer(cont: FormControl): ValidatorFn {
+  validateAnswerAsync(control: AbstractControl): Observable<ValidationErrors | null> {
+    // turn into an observable
+    return of( this.validateAnswer(control));
+  }
+
+  validateAnswer(cont: AbstractControl): ValidatorFn {
     this.submitAnswer();
     return (control: AbstractControl): {[key: string]: any} | null => {    
       return this.goodAnswer ? null : {validateAnswer: {valid: false }};
