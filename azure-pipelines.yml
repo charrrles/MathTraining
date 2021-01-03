@@ -17,22 +17,24 @@ steps:
 
 - script: |
     node --version
-    npm install -g @angular/cli
     npm install
-    ng build --prod
-  displayName: 'npm install and build'
+  displayName: 'npm install'
 
 - script: |
-    echo Listing folders...
-    dir '$(Build.ArtifactStagingDirectory)'
-    dir '$(Agent.BuildDirectory)'
-    dir '$(Build.ArtifactStagingDirectory)'
-  displayName: 'Try to understand'
+    npm install -g @angular/cli
+  displayName: 'npm install angular cli'
 
-- task: CopyFiles@2
+- script: |
+    ng build --prod
+  displayName: 'ng build'
+
+- task: ArchiveFiles@2
   inputs:
-    Contents: './dist/**'
-    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+    rootFolderOrFile: '$(System.DefaultWorkingDirectory)/dist/MathTraining'
+    includeRootFolder: false
+    archiveType: 'zip'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+    replaceExistingArchive: true
 
 - task: PublishBuildArtifacts@1
   inputs: 
