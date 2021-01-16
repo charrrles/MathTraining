@@ -1,0 +1,4 @@
+{
+  "appService.defaultWebAppToDeploy": "/subscriptions/e1061a35-1a47-4af1-a24e-dd96194fe75a/resourceGroups/Azuregro/providers/Microsoft.Web/sites/MathTraining",
+  "appService.deploySubpath": "dist"
+}
