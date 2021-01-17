@@ -4,10 +4,10 @@
     <mat-card-title>Multiplie rapidement</mat-card-title>
     <mat-card-subtitle>Tables de multiplications</mat-card-subtitle>
   </mat-card-header>
-  <canvas #canvas width="450" height="450"></canvas>
+  <app-canvas #drawCanvas *ngIf="currentQuestion" [question]="currentQuestion"></app-canvas>
   <!-- <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu"> -->
   <mat-card-content>
-    <p class="large-text" align="center">
+    <p *ngIf="currentQuestion" class="large-text" align="center">
     {{getCurrentQuestion()}}
     </p>
   </mat-card-content>

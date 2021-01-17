@@ -1,12 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ViewChild, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { Observable, of } from 'rxjs';
-
-
-class Question {
-  x: number;
-  y: number
-}
+import { CanvasComponent } from '../canvas/canvas.component';
 
 @Component({
   selector: 'app-question',
@@ -19,6 +14,8 @@ export class QuestionComponent implements OnInit {
   questionForm: FormGroup;
   MAX_NB = 5;
 
+  @ViewChild("drawCanvas") canvas: CanvasComponent;
+
   constructor() { }
 
   ngOnInit(): void {
@@ -28,21 +25,39 @@ export class QuestionComponent implements OnInit {
         [this.validateAnswerAsync.bind(this)]
       )
     });
-    this.currentQuestion = this.getNextQuestion();
+    this.getNextQuestion();
   }
+
   getCurrentQuestion(): string {
     return `${this.currentQuestion.x} x ${this.currentQuestion.y}`;
   }
 
-  forbiddenNameValidator(nameRe: RegExp): ValidatorFn {
-    return (control: AbstractControl): {[key: string]: any} | null => {
-      const forbidden = nameRe.test(control.value);
-      return forbidden ? {forbiddenName: {value: control.value}} : null;
-    };
+  getRandomInt(max: number): number {
+    return Math.floor(Math.random() * (max + 1));
+  }
+
+  getNextQuestion() {
+    let freeRand = this.getRandomInt(12);
+    let fixedRand = this.getRandomInt(this.MAX_NB);
+
+    // Make 0 and 1 rare.
+    if (freeRand === 0 || freeRand === 1 || fixedRand === 0 || fixedRand === 1){
+      freeRand = this.getRandomInt(12);
+      fixedRand = this.getRandomInt(this.MAX_NB);
+    }
+
+    let question: Question;
+    if (this.getRandomInt(1) === 0) {
+      question = { x: fixedRand, y: freeRand };
+    } else {
+      question = { x: freeRand, y: fixedRand };
+    }
+    this.currentQuestion = question;
+    this.canvas.draw(question);
+    return question;
   }
 
   validateAnswerAsync(control: AbstractControl): Observable<ValidationErrors | null> {
-    // turn into an observable
     return of( this.validateAnswer(control));
   }
 
@@ -51,29 +66,14 @@ export class QuestionComponent implements OnInit {
     return (control: AbstractControl): {[key: string]: any} | null => {    
       return this.goodAnswer ? null : {validateAnswer: {valid: false }};
     }
-  }
-
-  getRandomInt(max: number): number {
-    return Math.floor(Math.random() * (max + 1));
-  }
-
-  getNextQuestion(): Question {
-    let freeRand = this.getRandomInt(12);
-    let fixedRand = this.getRandomInt(this.MAX_NB);
-    let question: Question;
-    if (this.getRandomInt(1) === 0) {
-      question = { x: fixedRand, y: freeRand };
-    } else {
-      question = { x: freeRand, y: fixedRand };
-    }
-    return question;
-  }
+  }  
 
   async onGoodAnswer() {
     return new Promise(resolve => {
       setTimeout(() => {
         this.questionForm.reset();
-        this.currentQuestion = this.getNextQuestion();
+        this.getNextQuestion();
+        this.goodAnswer = false;
       }, 800);
     });
   }
