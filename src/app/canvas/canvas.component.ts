@@ -1,4 +1,5 @@
 import { Component, OnInit, ElementRef, ViewChild, Input, OnChanges  } from '@angular/core';
+import { Question } from '../question';
 
 @Component({
   selector: 'app-canvas',

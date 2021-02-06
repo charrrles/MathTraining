@@ -2,6 +2,7 @@ import { Component, ViewChild, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { Observable, of } from 'rxjs';
 import { CanvasComponent } from '../canvas/canvas.component';
+import { Question } from '../question';
 
 @Component({
   selector: 'app-question',
@@ -12,7 +13,7 @@ export class QuestionComponent implements OnInit {
   currentQuestion: Question;
   goodAnswer: boolean = false;
   questionForm: FormGroup;
-  MAX_NB = 5;
+  MAX_NB = 12;
 
   @ViewChild("drawCanvas") canvas: CanvasComponent;
 
