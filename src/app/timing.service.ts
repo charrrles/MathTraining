@@ -13,11 +13,12 @@ export class TimingService implements OnDestroy {
 
   constructor() { 
     this.timePassed = 0;
-    this.start();
   }
 
   public start(){
-    this.timer = setInterval(() => this.onTic(), 1000);
+    if (!this.timer){
+      this.timer = setInterval(() => this.onTic(), 1000);
+    }
   }
 
   public stop(){
