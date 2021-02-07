@@ -1,3 +1,4 @@
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { Component, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
 
@@ -7,28 +8,41 @@ import { Subject } from 'rxjs';
   styleUrls: ['./timer.component.css']
 })
 export class TimerComponent implements OnInit {
-  timeClock = new Subject();
   time : Date;
-  targetTime: Date;
+  targetSeconds: number;
   timer;
-  ALLOWED_TIME = 2;
+
+  timeClock$ = new Subject();
+  timePassed : number;
+  ALLOWED_SECONDS = 10;
 
   constructor() { }
 
   ngOnInit(): void {
     this.resetClock();
-    this.timer = setInterval(this.updateTime.bind(this), 1000);
+    this.updateTime();
+    setInterval(() => this.timeClock$.next("Tic"), 1000);
+    this.timeClock$.subscribe(((s : string) => s === "Tic" ? this.onTic() : null).bind(this));
+    this.timeClock$.subscribe(((s : string) => s === "Time's up!" ? this.resetClock () : null).bind(this));
+
+    this.timeClock$.subscribe(s => console.log(s));
   }
 
   resetClock(){
-    this.time = new Date(0);
-    this.time.setMinutes(2);
-    this.targetTime = new Date((new Date()).getTime() + this.ALLOWED_TIME * 60000);
+    this.timePassed = 0;
+    this.updateTime();
+  }
+
+  onTic(){
+    this.timePassed++;
+    this.updateTime();
   }
 
   updateTime(){
-    let currentTime = new Date();
-    this.time = new Date(this.targetTime.getTime() - currentTime.getTime());
+    this.time = new Date((this.ALLOWED_SECONDS - this.timePassed) * 1000);
+    if (this.timePassed > this.ALLOWED_SECONDS){
+      this.timeClock$.next("Time's up!");
+    }
   }
 
   ngOnDestroy(){

@@ -43,6 +43,7 @@ export class CanvasComponent implements OnInit, OnChanges {
 
     let rectXSize : number = (this.CANVAS_WIDTH - 2 * this.MARGIN) / question.x;
     let rectYSize : number = (this.CANVAS_HEIGHT - 2 * this.MARGIN) / question.y;
+    
     for (let i = 0; i < question.x; i++){
       for (let j = 0; j < question.y; j++){
         var rectangle = new Path2D();
