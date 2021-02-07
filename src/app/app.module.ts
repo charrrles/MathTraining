@@ -10,12 +10,15 @@ import { MatInputModule } from '@angular/material/input';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CanvasComponent } from './canvas/canvas.component';
+import { TimerComponent } from './timer/timer.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     QuestionComponent,
-    CanvasComponent
+    CanvasComponent,
+    QuestionComponent,
+    TimerComponent
   ],
   imports: [
     BrowserModule,
