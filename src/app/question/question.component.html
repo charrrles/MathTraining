@@ -7,6 +7,7 @@
   <app-canvas #drawCanvas *ngIf="currentQuestion" [question]="currentQuestion"></app-canvas>
   <!-- <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu"> -->
   <mat-card-content>
+    <app-score-board></app-score-board>
     <p *ngIf="currentQuestion" class="large-text" align="center">
     {{getCurrentQuestion()}}
     </p>

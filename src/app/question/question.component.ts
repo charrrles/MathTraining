@@ -54,7 +54,7 @@ export class QuestionComponent implements OnInit {
       question = { x: freeRand, y: fixedRand };
     }
     this.currentQuestion = question;
-    this.canvas.draw(question);
+    this.canvas?.draw(question);
     return question;
   }
 

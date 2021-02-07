@@ -11,6 +11,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CanvasComponent } from './canvas/canvas.component';
 import { TimerComponent } from './timer/timer.component';
+import { ScoreBoardComponent } from './score-board/score-board.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { TimerComponent } from './timer/timer.component';
     QuestionComponent,
     CanvasComponent,
     QuestionComponent,
-    TimerComponent
+    TimerComponent,
+    ScoreBoardComponent
   ],
   imports: [
     BrowserModule,
