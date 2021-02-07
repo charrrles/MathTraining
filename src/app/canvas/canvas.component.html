@@ -1,1 +1,7 @@
-<canvas #drawCanvas width={{CANVAS_WIDTH}} height={{CANVAS_HEIGHT}}></canvas>
+
+<canvas *ngIf="!isGameFinished() else finished" #drawCanvas width={{CANVAS_WIDTH}} height={{CANVAS_HEIGHT}}></canvas>
+
+<ng-template #finished>
+    <img src="../assets/images/success.jpg" alt="Bravo!">
+</ng-template>
+

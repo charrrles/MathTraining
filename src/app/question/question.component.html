@@ -13,11 +13,12 @@
     </p>
   </mat-card-content>
   <mat-card-actions style="text-align: center;">
-    <form *ngIf="questionForm" [formGroup]="questionForm" (ngSubmit)="submitAnswer()" class="example-form">
+    <form *ngIf="questionForm" [formGroup]="questionForm" (ngSubmit)="start()" [ngClass]="{ 'example-form':!timeIsUp, 'disabled':timeIsUp}" >
       <mat-form-field class="example-full-width" align="center">
         <mat-label>Réponse</mat-label>
         <input 
           formControlName="answerField" 
+          [readonly]="timeIsUp"
           class="large-text" 
           matInput 
           autocomplete="off">
@@ -26,11 +27,18 @@
         </mat-error>
         <mat-error *ngIf="goodAnswer" style="color:green">Good!</mat-error>
       </mat-form-field>
-      <button 
+      <!-- <button 
         class="submit-button" 
         mat-input 
        >Soumettre ⏎
-      </button>
+      </button> -->
     </form>
-  </mat-card-actions>
+    <button 
+    class="submit-button" 
+    type="reset"
+    mat-input 
+    (click)="start()"
+   >Start
+  </button>
+</mat-card-actions>
 </mat-card>

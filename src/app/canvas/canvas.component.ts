@@ -1,5 +1,6 @@
 import { Component, OnInit, ElementRef, ViewChild, Input, OnChanges  } from '@angular/core';
 import { Question } from '../question';
+import { ScoreboardService } from '../scoreboard.service';
 
 @Component({
   selector: 'app-canvas',
@@ -17,7 +18,7 @@ export class CanvasComponent implements OnInit, OnChanges {
   canvasEl: HTMLCanvasElement;
   @ViewChild("drawCanvas") canvas: ElementRef;
 
-  constructor() { }
+  constructor(private scoreboardService:ScoreboardService) { }
 
   ngOnInit(): void {
   }
@@ -32,6 +33,10 @@ export class CanvasComponent implements OnInit, OnChanges {
     console.log("change happened");
   }
 
+  isGameFinished(){
+    return this.scoreboardService.finishedGame;
+  }
+  
   // Taking question as an input instead of using the member because since it is 
   // called directly from question component on the second and later calls, it gets 
   // here before the angular cycle sets this.question to the current question, so 
@@ -43,7 +48,7 @@ export class CanvasComponent implements OnInit, OnChanges {
 
     let rectXSize : number = (this.CANVAS_WIDTH - 2 * this.MARGIN) / question.x;
     let rectYSize : number = (this.CANVAS_HEIGHT - 2 * this.MARGIN) / question.y;
-    
+
     for (let i = 0; i < question.x; i++){
       for (let j = 0; j < question.y; j++){
         var rectangle = new Path2D();

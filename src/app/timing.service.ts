@@ -9,15 +9,21 @@ export class TimingService implements OnDestroy {
   private timeClock$ = new Subject();
   private timeIsUp$ = new Subject();
   timePassed : number;
-  ALLOWED_SECONDS = 10;
+  ALLOWED_SECONDS = 120;
 
   constructor() { 
     this.timePassed = 0;
     this.start();
   }
 
-  private start(){
+  public start(){
     this.timer = setInterval(() => this.onTic(), 1000);
+  }
+
+  public stop(){
+    clearInterval(this.timer);
+    this.timePassed = 0;
+    this.timeIsUp$.next();    
   }
 
   private onTic(){
@@ -25,8 +31,7 @@ export class TimingService implements OnDestroy {
     this.timeClock$.next(this.timePassed);
 
     if (this.timePassed > this.ALLOWED_SECONDS){
-      this.timePassed = 0;
-      this.timeIsUp$.next();
+      this.stop();
     }
   }
 

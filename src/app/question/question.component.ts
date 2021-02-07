@@ -3,6 +3,8 @@ import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn,
 import { Observable, of } from 'rxjs';
 import { CanvasComponent } from '../canvas/canvas.component';
 import { Question } from '../question';
+import { ScoreboardService } from '../scoreboard.service';
+import { TimingService } from '../timing.service';
 
 @Component({
   selector: 'app-question',
@@ -12,14 +14,18 @@ import { Question } from '../question';
 export class QuestionComponent implements OnInit {
   currentQuestion: Question;
   goodAnswer: boolean = false;
+  timeIsUp: boolean = false;
   questionForm: FormGroup;
   MAX_NB = 12;
 
   @ViewChild("drawCanvas") canvas: CanvasComponent;
 
-  constructor() { }
+  constructor(
+    private timingService: TimingService, 
+    private scoreboardService: ScoreboardService) { }
 
   ngOnInit(): void {
+    this.timingService.onTimesUp$().subscribe(() => this.timeIsUp = true);
     this.questionForm = new FormGroup({
       'answerField': new FormControl('',
         [Validators.required], 
@@ -74,6 +80,7 @@ export class QuestionComponent implements OnInit {
       setTimeout(() => {
         this.questionForm.reset();
         this.getNextQuestion();
+        this.scoreboardService.onGoodAnswer();
         this.goodAnswer = false;
       }, 800);
     });
@@ -88,5 +95,11 @@ export class QuestionComponent implements OnInit {
     if (this.goodAnswer) {
       await this.onGoodAnswer();
     }
+  }
+
+  start(){
+    this.timeIsUp = false;
+    this.scoreboardService.reset();
+    this.timingService.start();
   }
 }

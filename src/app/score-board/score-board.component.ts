@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ScoreboardService } from '../scoreboard.service';
 
 @Component({
   selector: 'app-score-board',
@@ -6,12 +7,21 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./score-board.component.css']
 })
 export class ScoreBoardComponent implements OnInit {
-  successes:number;
-  target:number = 20;
-  constructor() { }
+  constructor(private scoreboardService: ScoreboardService) { }
 
   ngOnInit(): void {
-    this.successes = 0;
+
   }
 
+  getSuccesses(){
+    return this.scoreboardService.getGoodAnswers();
+  }
+
+  getTarget(){
+    return this.scoreboardService.getTarget();
+  }
+
+  isGameFinished(){
+    return this.scoreboardService.finishedGame;
+  }
 }
