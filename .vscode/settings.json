@@ -1,4 +1,8 @@
 {
-  "appService.defaultWebAppToDeploy": "/subscriptions/e1061a35-1a47-4af1-a24e-dd96194fe75a/resourceGroups/Azuregro/providers/Microsoft.Web/sites/MathTraining",
-  "appService.deploySubpath": "dist"
+  "appService.defaultWebAppToDeploy": "/subscriptions/c944ed84-ea99-432b-a72f-54040f306f02/resourceGroups/Azuregro/providers/Microsoft.Web/sites/MathTraining",
+  "appService.deploySubpath": "dist",
+  "appService.zipIgnorePattern": [
+    "node_modules{,/**}",
+    ".vscode{,/**}"
+  ]
 }
